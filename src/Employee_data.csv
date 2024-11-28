@@ -1,4 +1,9 @@
 EmployeeID,Full_Name,Department,Salary,Email,Normalised_Salary
+1,John Doe,Marketing,50000.0,ob.donj@sample.com,0.0
+2,Jane Smith,Sales,60000.0,ob.donj@sample.com,0.2857142857142857
+3,Sam Brown,IT,73500.0,ob.donj@sample.com,0.6714285714285714
+4,Alice Johnson,HR,55000.0,ob.donj@sample.com,0.14285714285714285
+5,Bob Davis,IT,78750.0,ob.donj@sample.com,0.8214285714285714
 17,Susan Lewis,HR,51000.0,susan.lewis@example.com,0.02857142857142857
 18,Christopher Walker,Marketing,71000.0,christopher.walker@example.com,0.6
 19,Karen Hall,Engineering,77000.0,karen.hall@example.com,0.7714285714285715
