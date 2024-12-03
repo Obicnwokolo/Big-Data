@@ -23,27 +23,25 @@ engine = create_engine('postgresql://consultants:WelcomeItc%402022@18.132.73.146
 #engine = create_engine(connection_string)
 #cursor = connection_string.cursor()
 
-try:
-    with engine.connect() as connection: #explain???
-        print("connection successful")
-except Exception as e:  #explain????
-    print("connection failed:", e)
+#try:
+   # with engine.connect() as connection: #explain???
+     #   print("connection successful")
+#except Exception as e:  #explain????
+ #   print("connection failed:", e)
 
 # Read csv from python as data frame and load it to sql
-data_load = pd.read_csv("C:/Users/chigb/Downloads/5_fraud_records.csv")
-
-print(data_load.head(2))
+#data_load = pd.read_csv("C:/Users/chigb/Downloads/5_fraud_records.csv")
 
 # load dataframe to sql
-try:
-    data_load.to_sql('fraud_table',con=engine, if_exists= 'replace', index= False)
-    print("Data successfully added to database")
-except Exception as e:
-    print("An error occored: {e}")
+#try:
+   # data_load.to_sql('fraud_table',con=engine, if_exists= 'replace', index= False)
+   # print("Data successfully added to database")
+#except Exception as e:
+   # print("An error occored: {e}")
 
-connection.commit()
+#connection.commit()
 
-fraud_data = pd.read_sql_table("fraud_table",engine)
+fraud_data = pd.read_sql("fraud_table",engine)
 
 #CREATING FLASK API
 from flask import Flask, request, jsonify
