@@ -59,7 +59,7 @@ sql_query = text("""
         (02, 'Ali', 'kar3445534@hotmail.com')
 """)
 
-connection.commit()
+#connection.commit()
 
 # Read csv from python as data frame and load it to sql
 data_load = pd.read_csv("C:/Users/chigb/Downloads/5_fraud_records.csv")
