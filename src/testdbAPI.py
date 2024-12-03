@@ -13,7 +13,7 @@ password = "WelcomeItc@2022"
 host= "18.132.73.146"
 port = "5432"
 database= "testdb"
-ENCODED_PASSWORD = quote_plus(password)
+#ENCODED_PASSWORD = quote_plus(password)
 
 
 #creating database connectionw string
@@ -47,7 +47,7 @@ try:
         print("Table created successfully")
 except Exception as e:
     print("Failed to creat table")
-    print(f"Error:{e}")
+    print("Error:{e}")
 
 
 
@@ -71,7 +71,7 @@ try:
     data_load.to_sql('fraud_table',con=engine, if_exists= 'replace', index= False)
     print("Data successfully added to database")
 except Exception as e:
-    print(f"An error occored: {e}")
+    print("An error occored: {e}")
 
 connection.commit()
 
