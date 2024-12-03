@@ -29,17 +29,6 @@ try:
 except Exception as e:  #explain????
     print("connection failed:", e)
 
-try:
-    with engine.connect() as connection:
-        connection.execute(customers)
-        print("Table created successfully")
-except Exception as e:
-    print("Failed to creat table")
-    print("Error:{e}")
-
-
-connection.commit()
-
 # Read csv from python as data frame and load it to sql
 data_load = pd.read_csv("C:/Users/chigb/Downloads/5_fraud_records.csv")
 
