@@ -4,7 +4,7 @@ import pandas as pd
 
 # importing connection engine pack
 from sqlalchemy import create_engine, inspect, text
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus #why
 from sqlalchemy import Table, MetaData
 
 # Creating connection strings for my database
@@ -16,17 +16,17 @@ database= "testdb"
 ENCODED_PASSWORD = quote_plus(password)
 
 
-#creating connection with database
+#creating database connectionw string
 connection_string = f"postgresql+psycopg2://{username}:{ENCODED_PASSWORD}@{host}:{port}/{database}"
 
-#Establishing connection with engine
+#Establishing connection with engine & database
 engine = create_engine(connection_string)
 #cursor = connection_string.cursor()
 
 try:
-    with engine.connect() as connection:
+    with engine.connect() as connection: #explain???
         print("connection successful")
-except Exception as e:
+except Exception as e:  #explain????
     print("connection failed:", e)
 
 # Read Table from database
@@ -68,7 +68,35 @@ print(data_load.head())
 
 # load dataframe to sql
 try:
-    data_load.to_sql('Fraud_table',con=engine, if_exists= 'replace', index= False)
+    data_load.to_sql('fraud_table',con=engine, if_exists= 'replace', index= False)
     print("Data successfully added to database")
 except Exception as e:
     print(f"An error occored: {e}")
+
+connection.commit()
+
+fraud_data = pd.read_sql_table("fraud_table",engine)
+print(fraud_data)
+#CREATING FLASK API
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+#configure SQLite database
+app.config[connection_string]= f"postgresql+psycopg2://{username}:{ENCODED_PASSWORD}@{host}:{port}/{database}"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]= False
+db = SQLAlchemy
+
+@app.route('/data', methods=['GET'])
+def get_data():
+    data = fraud_data
+    if data is not None:
+        return jsonify(data), 200
+    else:
+        return jsonify({"error": "Unable to fetch data from database"}), 500
+
+if __name__ == '__main__':
+    # Run the app
+  app.run(host='0.0.0.0', port=5310, debug=True)
+
