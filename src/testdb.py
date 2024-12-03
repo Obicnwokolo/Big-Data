@@ -31,7 +31,7 @@ except Exception as e:  #explain????
 
 # Read Table from database
 df = pd.read_sql_table("aapl",engine)
-print(df.head())
+print(df.head(3))
 
 # Writing new table to te database
 customers = text("""
@@ -64,7 +64,7 @@ connection.commit()
 # Read csv from python as data frame and load it to sql
 data_load = pd.read_csv("C:/Users/chigb/Downloads/5_fraud_records.csv")
 
-print(data_load.head())
+print(data_load.head(2))
 
 # load dataframe to sql
 try:
@@ -76,21 +76,18 @@ except Exception as e:
 connection.commit()
 
 fraud_data = pd.read_sql_table("fraud_table",engine)
-print(fraud_data)
+
 #CREATING FLASK API
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-#configure SQLite database
-app.config[connection_string]= f"postgresql+psycopg2://{username}:{ENCODED_PASSWORD}@{host}:{port}/{database}"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]= False
-db = SQLAlchemy
+fraud = fraud_data.to_dict(orient='records')
 
 @app.route('/data', methods=['GET'])
 def get_data():
-    data = fraud_data
+    data = fraud
     if data is not None:
         return jsonify(data), 200
     else:
