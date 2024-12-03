@@ -29,18 +29,6 @@ try:
 except Exception as e:  #explain????
     print("connection failed:", e)
 
-# Read Table from database
-df = pd.read_sql_table("aapl",engine)
-print(df.head(3))
-
-# Writing new table to te database
-customers = text("""
-CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    email VARCHAR(50) UNIQUE NOT NULL
-);
-""")
 try:
     with engine.connect() as connection:
         connection.execute(customers)
@@ -50,16 +38,7 @@ except Exception as e:
     print("Error:{e}")
 
 
-
-# INSERT INTO users
-sql_query = text("""
-    INSERT INTO users(id, name, email)
-    VALUES
-        (01, 'Muhammed', 'kara34@hotmail.com'),
-        (02, 'Ali', 'kar3445534@hotmail.com')
-""")
-
-#connection.commit()
+connection.commit()
 
 # Read csv from python as data frame and load it to sql
 data_load = pd.read_csv("C:/Users/chigb/Downloads/5_fraud_records.csv")
