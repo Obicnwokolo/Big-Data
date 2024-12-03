@@ -57,3 +57,5 @@ INNER JOIN Departments D
 	ON E.EmployeeID = D.ManagerID
 INNER JOIN Employees M
 	ON D.ManagerID = M.EmployeeID;
+
+
