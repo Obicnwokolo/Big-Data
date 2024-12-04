@@ -1,6 +1,8 @@
 import unittest
+from unittest.mock import patch
 from flask import Flask, jsonify
 from testdbAPI import app  # Replace with the actual filename of your app
+
 
 # setUp: Initializes the test client so that it can send HTTP requests to the Flask app.
 class TestFlaskAPI(unittest.TestCase):
@@ -9,17 +11,21 @@ class TestFlaskAPI(unittest.TestCase):
         self.client = app.test_client()
         self.client.testing = True
 
-    def test_get_data(self):
-        """Test the /data endpoint."""
-        response = self.client.get('/data') # Make a GET request to the /data endpoint
-        self.assertEqual(response.status_code, 200) # Check if the status code is 200 (OK)
-        self.assertEqual(response.content_type, 'application/json') # Check if the response is in JSON format 
-        data = response.get_json() # Check if the response contains some expected data
-        self.assertIsInstance(data, list) # Assuming the fraud_data has at least one record, check if the response has a list
+    def test_no_data(self):
+        """Test the /data endpoint when there is no data."""
+        # Assuming you can mock the fraud_data being empty
+        global data
+        data = []  # Set the fraud data to an empty list for this test
         
-        # Check if the data contains expected keys (e.g., "fraud_id")
-        if data:  # Check if the list is not empty
-            self.assertIn('fraud_id', data[0])  # Replace 'fraud_id' with a valid column name
+        # Make a GET request to the /data endpoint
+        response = self.client.get('/data')
+        
+        # Check if the status code is 200 (OK)
+        self.assertEqual(response.status_code, 200)
+        
+        # Check if the response returns an empty list
+        self.assertEqual(response.get_json(), [])
+        #print(response.get_json())
 
 
 
