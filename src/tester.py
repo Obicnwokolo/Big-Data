@@ -17,7 +17,7 @@ class TestFlaskAPI(unittest.TestCase):
         self.client.testing = True
 
 # Test specific fraud record retrieval
-    @patch('testdbAPI.data', fraud_data)
+    @patch('testdbAPI.fraud', fraud_data)
     def test_get_single_record(self):
         """Test getting a specific fraud record by ID."""
         record_id = 1
