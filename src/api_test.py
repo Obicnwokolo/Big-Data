@@ -10,5 +10,5 @@ class TestAPIconnection(unittest.TestCase):
         self.client.testing = True
 
 
-if __name__ == 'main':
-    unittest.main
+if __name__ == '__main__':
+    unittest.main()
