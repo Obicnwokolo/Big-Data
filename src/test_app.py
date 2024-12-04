@@ -7,7 +7,7 @@ class TestFlaskAPI(unittest.TestCase):
     def setUp(self):
         """Set up the test client for the Flask app."""
         self.client = app.test_client()
-        self.client.testing = True
+        self.client.testing = True # ensures detailed error messages are displayed incase of any issues.
 
     def test_get_data(self):
         """Test the /data endpoint."""
