@@ -31,8 +31,10 @@ fraud = fraud_data.to_dict(orient='records')
 
 @app.route('/data', methods=['GET'])
 def get_data():
-    data1 = fraud
-    if data1 is not None:
+    def get_single_record(id):
+        record = next((item for item in fraud_data if item['fraud_id'] == id), None)
+    data = fraud
+    if data is not None:
         return jsonify(data), 200
     else:
         return jsonify({"error": "Unable to fetch data from database"}), 500
