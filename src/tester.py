@@ -20,15 +20,15 @@ class TestFlaskAPI(unittest.TestCase):
     @patch('testdbAPI.fraud', fraud_data)
     def test_get_single_record(self):
         """Test getting a specific fraud record by ID."""
-        record_id = 1
-        response = self.client.get(f'/data/{record_id}')  # Assume endpoint handles /data/<id>
+        fraud_id = 1
+        response = self.client.get(f'/data/{fraud_id}')  # Assume endpoint handles /data/<id>
         
         # Check that the response status code is 200
         self.assertEqual(response.status_code, 200)
 
         # Check that the response matches the expected record
         response_data = response.get_json()
-        expected_data = {"id": 1, "name": "John Doe", "fraud_score": 99}
+        expected_data = {"fraud_id": 1, "transaction_id": 655, "fraud_detected_date": "4/10/2020 19:09", "fraud_type": "Skimming", "investigation_status":"Open", "fraud_resolution": "No Action Taken"}
         self.assertEqual(response_data, expected_data)
 
 
