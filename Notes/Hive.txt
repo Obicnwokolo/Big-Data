@@ -117,3 +117,117 @@ Hive has:
 -When you delete Managed/internal tables both schema and table will be deleted
 -External table most suitable for batch processing.
 -Internal table is for transactional operations/queries in hadoop
+------------------------------------------------------------------------------------------------------------------------------
+PERFORMANCE OPTIMIZATION
+-Indexing
+-Partitioning
+-Bucketing
+
+Both Partitioning and Bucketing in Hive are used to improve performance by eliminating table 
+scans when dealing with a large set of data on a Hadoop file system (HDFS).
+
+Hive Partition
+Hive Partition is a way to organize large tables into smaller logical tables based on values of columns; 
+one logical table (partition) for each distinct value
+let’s assume you have a US census table which contains zip code, city, state and other columns. Creating a partition on state splits the table into around 50 partitions, when searching for a zipcode with in a state (state=’CA’ and zipCode =’92704′) results in faster as it need to scan only in a state=CA partition directory.
+
+Partitioning is best for columns with moderate cardinality. Avoid partitioning by high cardinality columns unless absolutely necessaryCreating a partition on zipcode of US population is not a good practice as it creates nearly 42,000 directories on HDFS (US has nearly 42,000 zip codes).
+
+Hive Bucketing a.k.a (Clustering)
+Hive Bucketing a.k.a (Clustering) is a technique to split the data into more manageable files, 
+(By specifying the number of buckets to create). 
+The value of the bucketing column will be hashed by a user-defined number into buckets.
+From our example, we already have a partition on state which leads to around 50 subdirectories on 
+a table directory, and creating a bucketing 10 on zipcode column creates 10 files for each partitioned subdirectory.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE sales_data_partitioned (
+  id INT,
+  amount DOUBLE,
+  product_id STRING
+)
+PARTITIONED BY (year INT)
+STORED AS ORC;
+---------------------------------------------------------------------------------
+-- Insert data for year 2021
+INSERT INTO TABLE sales_data_partitioned PARTITION (year = 2021)
+VALUES
+  (1, 500.0, 'p1'),
+  (2, 300.0, 'p2'),
+  (3, 700.0, 'p1'),
+  (4, 400.0, 'p3');
+-----------------------------------------------------------------------------
+-- Insert data for year 2022
+INSERT INTO TABLE sales_data_partitioned PARTITION (year = 2022)
+VALUES
+  (5, 600.0, 'p4'),
+  (6, 450.0, 'p2'),
+  (7, 850.0, 'p5'),
+  (8, 200.0, 'p1');
+---------------------------------------------------------------------------
+
+sudo -u hds
+----------------------------------------------------------------------------
+CREATE EXTERNAL TABLE sales_data_external_text (
+  id INT,
+  amount DOUBLE,
+  product_id STRING
+)
+PARTITIONED BY (year INT, month INT)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','  -- Comma-separated values (CSV format)
+STORED AS TEXTFILE
+LOCATION '/user/hive/warehouse/sales_data/';
+----------------------------------------------------------------------------------------------
+-- To view the partitioned data in the folder in the internal Hive warehouse
+hdfs dfs -ls /warehouse/tablespace/managed/hive/obinna.db/sales_data_partitioned
+
+when you get permission error need to check with below commands:
+sudo -u hdfs hdfs dfs -ls /warehouse/tablespace/managed/hive/obinna.db/sales_data_partitioned
+
+---------------------------------------------------------------------------------------
+CREATE TABLE sales_data (
+  id INT,
+  amount DOUBLE,
+  product_id STRING
+)
+PARTITIONED BY (year INT)
+CLUSTERED BY (product_id) INTO 10 BUCKETS
+STORED AS ORC;
+-----------------------------------------------------------------------------
+
+-- Insert data into the sales_data table for year 2021
+INSERT INTO TABLE sales_data PARTITION (year = 2021)
+VALUES
+  (1, 500.0, 'p1'),
+  (2, 300.0, 'p2'),
+  (3, 700.0, 'p1'),
+  (4, 400.0, 'p3');
+-------------------------------------------------------------------------------
+-- Insert data into the sales_data table for year 2022
+INSERT INTO TABLE sales_data PARTITION (year = 2022)
+VALUES
+  (5, 600.0, 'p4'),
+  (6, 450.0, 'p2'),
+  (7, 850.0, 'p5'),
+  (8, 200.0, 'p1');
+--------------------------------------------------------------------------------
+CREATE EXTERNAL TABLE external_sales_data_partitioned (
+  id INT,
+  amount DOUBLE,
+  product_id STRING
+)
+PARTITIONED BY (year INT)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE
+LOCATION '/tmp/bigdata_nov_2024/obinna/sales_data_partitioned/';
+------------------------------------------------------------------------------
+insert into external_sales_data_partitioned select * from sales_data_partitioned
+
+when you get permission error need to check with below commands:
+sudo -u hdfs hdfs dfs -chmod 777 /tmp/bigdata_nov_2024/obinna/sales_data_partitioned/
+
+To view the partitioned tables
+ hdfs dfs -ls /tmp/bigdata_nov_2024/obinna/sales_data_partitioned/
+  hdfs dfs -ls /tmp/bigdata_nov_2024/obinna/sales_data_partitioned/year=2022
+--------------------------------------------------------------------------------
