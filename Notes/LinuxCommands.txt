@@ -1,0 +1,29 @@
+BASIC LINUX COMMANDS
+----------------------------------------------------------------------------------
+PWD: to show your current location in the machine
+CD "desired folder": to change from your present location to a desired location
+LS : To list the folders/ files in the present location
+ls /
+mkdir user1: to create a new folder
+mkdir user2 user3 user4 user5 user5 : to create multiple new folders
+mkdir -p folder1/batch: to create a folder and another folder inside the new folder at once
+cd .. : go back to the previous folder
+man "command": Used to displa manuals(description)/ explanation of Linux commands
+touch "file name": Create a New File
+tree: list contents of directories in tree-like format
+vi / vim "file name": Create a New File/ Text editor
+esc+":"+"wq"+enter: save and exit text editor
+esc+":"+"q!"+enter: quit/ exit text editor without saving
+cat "file name" : view text file contents
+ctrl c: to interrupt a command
+cd ~ : to home folder from anywhere
+echo "text input" >> "file.txt": to add to file
+echo "text input" > "file.txt": to replace file content
+cat "source file" >> "destination file": to copy content of file1 to file 2(regardless of the location of the file)
+cp folder1/batch1/water.txt user5: to copy file from one folder to another
+cp /home/ec2-user/folder1/batch1/gym.txt /home/ec2-user/user4 : full path
+.cp folder1/batch1/water.txt user5 : native path
+rm "file name": delete a file
+rm -r user4: force delete a folder with contents
+sudo -u: to give root user access.
+chmod : to escalate priviledge
