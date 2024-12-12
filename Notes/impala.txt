@@ -1,0 +1,16 @@
+IMAPALA
+Developed by Cloudera
+Impala is a general pirpopse SQL engine with familiar SQL interface
+-runs directly on data stored in HDFS or Hbase
+-Uses same SQL syntax as Hive, but used for real-time processing and not built on map reduce, but runs parallel with MR through MPP framework
+#Hive runs on map reduce>> long running batch processing jobs such as ETL
+-built on C++ not java
+-Can be installed, configured andexecuted on the same Hadoop clusters
+-Single system for big data processing and analytics
+-Impala is not fault-tolerant.
+-Not suitable for loading or ingesting data (ETL)
+- Most suited for analytics and visualization
+- does not use YARN, it uses Demon
+-Not Master-worker, but Master-Master
+
+# INVALIDATE METADATA to capture updates and get the latest records.
