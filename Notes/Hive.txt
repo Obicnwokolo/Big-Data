@@ -175,13 +175,17 @@ FIELDS TERMINATED BY ','  -- Comma-separated values (CSV format)
 STORED AS TEXTFILE
 LOCATION '/user/hive/warehouse/sales_data/';
 ----------------------------------------------------------------------------------------------
--- To view the partitioned data in the folder in the internal Hive warehouse
+To view the storage location in hive
+show create table 'name_of_table'
+
+To view the partitioned data in the folder in the internal Hive warehouse
 hdfs dfs -ls /warehouse/tablespace/managed/hive/obinna.db/sales_data_partitioned
 
 when you get permission error need to check with below commands:
 sudo -u hdfs hdfs dfs -ls /warehouse/tablespace/managed/hive/obinna.db/sales_data_partitioned
 
 ---------------------------------------------------------------------------------------
+#CREATING EXTERNAL BUCKETING TABLE
 CREATE TABLE sales_data (
   id INT,
   amount DOUBLE,
@@ -190,6 +194,20 @@ CREATE TABLE sales_data (
 PARTITIONED BY (year INT)
 CLUSTERED BY (product_id) INTO 10 BUCKETS
 STORED AS ORC;
+----------------------------------------------------------------------------------------
+#CREATING EXTERNAL BUCKETING & PARTITIONED TABBLE
+CREATE EXTERNAL TABLE external_sales_data (
+  id INT,
+  amount DOUBLE,
+  product_id STRING
+)
+PARTITIONED BY (year INT)
+CLUSTERED BY (product_id) INTO 10 BUCKETS
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE
+LOCATION '/tmp/bigdata_nov_2024/obinna/sales_data_bucket/';
+
 -----------------------------------------------------------------------------
 
 -- Insert data into the sales_data table for year 2021
@@ -208,6 +226,8 @@ VALUES
   (7, 850.0, 'p5'),
   (8, 200.0, 'p1');
 --------------------------------------------------------------------------------
+# CREATING EXTERNAL PARTITIONED TABLE
+
 CREATE EXTERNAL TABLE external_sales_data_partitioned (
   id INT,
   amount DOUBLE,
@@ -219,6 +239,7 @@ FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 LOCATION '/tmp/bigdata_nov_2024/obinna/sales_data_partitioned/';
 ------------------------------------------------------------------------------
+#INSERTING DATA INTO THE EXTERNAL TABLE USING EXISTING TABLE WITH SELECT STATEMENT
 insert into external_sales_data_partitioned select * from sales_data_partitioned
 
 when you get permission error need to check with below commands:
