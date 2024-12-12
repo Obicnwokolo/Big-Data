@@ -1,0 +1,39 @@
+SQOOP
+
+-Mainly used for data spooling. moving data from one source to destination. eg from Databases >> HDFS
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+To login to Postrgre
+sqoop list-databases --connect jdbc:postgresql://18.132.73.146:5432/testdb --username consultants -P
+
+psswd: WelcomeItc@2022
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# To list tables
+sqoop list-tables --connect jdbc:postgresql://18.132.73.146:5432/testdb --username consultants -P
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# To import data from RDBMS to HDFS
+sqoop import --connect jdbc:postgresql://18.132.73.146:5432/testdb --username consultants --password WelcomeItc@2022 --table person --m 1 --target-dir /tmp/bigdata_nov_2024/obinna/fraud2/
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# To list the column names of a table
+SELECT column_name
+FROM information_schema.columns
+WHERE table_schema = 'public'  -- Replace with your schema name if it's different
+  AND table_name   = 'fraud_table';  -- Replace with your table name
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# TO CREATE EXTERNAL TABLE >> FULL LOAD
+# Put this code in Hive GUI
+CREATE EXTERNAL TABLE obinna.fraud_data (                     
+fraud_id INT,
+transaction_id INT,
+fraud_detected_date STRING,
+fraud_type STRING,
+investigation_status STRING,
+fraud_resolution STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','  
+LINES TERMINATED BY '\n'  
+STORED AS TEXTFILE
+LOCATION '/tmp/bigdata_nov_2024/obinna/fraud2/';
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INCREMENTAL LOAD
