@@ -1,0 +1,20 @@
+CHANGE DATA CAPTURE (CDC)
+
+The PROCESS of recognizing when data has changed in the SOURCE SYSTEM so a DOWNSTREAM SYSTEM  can take an action based on that change
+-Every data Mutation(INSERT, UPDATE, DELETE) the Database writes a  message to KAFKA which the broadcasts to all target systems which has subscribed to KAFKA TOPIC.
+
+:>Source system pushes changes to kafka
+	>>Target system listens to kafka topic, and consumes the message
+		>>Target system applies changes
+
+USE CASE
+-To replicate data in other databases(Data Warehouse or Data Lakes)
+- Perform stream processing based on data changes: alerts you whenever a customer info changes, allows you to do some processing and then send a targeted message to the customer.
+-Validate or invalidate/ update your cache
+-Asynchronous jobs based on data changes: e.g trigger an email or alert whenever a customer row changes in your database
+
+LOGIC behind CDC for INCREMENTAL CAPTURE
+SELECT * FROM table
+WHERE pry_key/ Timestamp >
+    (SELECT max(pry_key/ Timestamp)
+        FROM hive table);
