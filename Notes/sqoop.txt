@@ -12,7 +12,7 @@ sqoop list-tables --connect jdbc:postgresql://18.132.73.146:5432/testdb --userna
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # To import data from RDBMS to HDFS
-sqoop import --connect jdbc:postgresql://18.132.73.146:5432/testdb --username consultants --password WelcomeItc@2022 --table person --m 1 --target-dir /tmp/bigdata_nov_2024/obinna/fraud2/
+sqoop import --connect jdbc:postgresql://18.132.73.146:5432/testdb --username consultants --password WelcomeItc@2022 --table fraud_table --m 1 --target-dir /tmp/bigdata_nov_2024/obinna/fraud2/
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # To list the column names of a table
 SELECT column_name
@@ -22,7 +22,7 @@ WHERE table_schema = 'public'  -- Replace with your schema name if it's differen
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # TO CREATE EXTERNAL TABLE >> FULL LOAD
 # Put this code in Hive GUI
-CREATE EXTERNAL TABLE obinna.fraud_data (                     
+CREATE EXTERNAL TABLE obinna.fraud_data1 (                     
 fraud_id INT,
 transaction_id INT,
 fraud_detected_date STRING,
@@ -34,6 +34,6 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','  
 LINES TERMINATED BY '\n'  
 STORED AS TEXTFILE
-LOCATION '/tmp/bigdata_nov_2024/obinna/fraud2/';
+LOCATION '/tmp/bigdata_nov_2024/obinna/fraud3';
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INCREMENTAL LOAD
