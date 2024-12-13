@@ -19,3 +19,12 @@ TYPES OF OOZIE JOBS
 Oozie workflow jobs
 
 #Task is a breakdown of jobs.
+
+
+OOzie >> 
+        Drag Sqoop icon and enter data database import command
+                >> goto linux /obinna/ create file.hql (enter create external table command)
+                    >> drag hive icon
+                        >> click enter file path
+                                >> '/'user >> tmp>>obinna>> file.hql
+                                    >> save & run
