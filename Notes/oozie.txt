@@ -1,0 +1,21 @@
+APPACHE OOZIE
+
+This is a job scheduling system to manage and run Hadoop jobs in a distributed storage environment. 
+-Allows users to run and manage multiple parallel jobs in a sequential order.
+- Easily integrates with Hive, Spark, Scala
+- Open source java web application available under Apache licence 2.0
+Responsible for triggering workflow actions which in turn uses Hadoop execution engine.
+
+- Oozie is able to detect completion of jobs through CALLBACK and POLLN.
+
+CALLBACK
+when Oozie starts a task, it provides a unique callback HTTP URL and notifies the URL when the task is completed. If the task fails to invoke the callback URL, Oozie then pulls the task for completion.
+
+TYPES OF OOZIE JOBS
+- Oozie workflow jobs: Specifies the sequence of actions to be executed
+- Oozie Co-ordinator jobs: Contains the workflow jobs triggered by the time and data availaibility.
+- Oozie Bundles: A package of multiple coordinators and workflow jobs.
+
+Oozie workflow jobs
+
+#Task is a breakdown of jobs.
