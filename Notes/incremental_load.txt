@@ -1,0 +1,43 @@
+INCREMENTAL LOAD
+--------------------------------------------------------------------------------------
+_step_2_incremental_load.sh 
+#!/bin/bash
+--------------------------------------------------------------------------------------
+# Check if at least the required arguments are provided
+if [ -z "$1" ] || [ -z "$2" ]; then
+  echo "Usage: $0 <user> <table_name> [hive_database]"
+  exit 1
+fi
+--------------------------------------------------------------------------------------
+# Assign arguments to variables for clearer reference
+USER="$1"
+TABLE="$2"
+HIVE_DATABASE="${3:-default}" # Use the 3rd argument if provided, otherwise default to 'default'
+-------------------------------------------------------------------------------------
+# Variables
+HOSTNAME='ec2-3-9-191-104.eu-west-2.compute.amazonaws.com'
+DBNAME='testdb'
+USERNAME='consultants'
+PASSWORD='WelcomeItc@2022'
+TARGET_DIR="/tmp/USUK30/${USER}/hive/${HIVE_DATABASE}/${TABLE}/" # Modified to include user in the path
+----------------------------------------------------------------------------------------
+# Fetch the maximum id value from Hive
+LAST_VALUE=$(beeline -u "jdbc:hive2://ip-172-31-3-80.eu-west-2.compute.internal:10000/${HIVE_DATABASE};" --silent=true -e "SELECT MAX(id) FROM ${TABLE};" | grep -o '[0-9]*' | tail -n 1)
+-------------------------------------------------------------------------------------
+echo "Last recorded ID: $LAST_VALUE"
+echo "Starting new import from ID greater than $LAST_VALUE"
+--------------------------------------------------------------------------------------
+# Perform the incremental Sqoop import
+sqoop import \
+    --connect jdbc:postgresql://${HOSTNAME}:5432/${DBNAME} \
+    --username ${USERNAME} \
+    --password ${PASSWORD} \
+    --table ${TABLE} \
+    --incremental append \
+    --check-column id \
+    --last-value ${LAST_VALUE} \
+    --target-dir ${TARGET_DIR} \
+    --m 1 \
+    --as-textfile
+-----------------------------------------------------------------------------------
+beeline -u jdbc:hive2://ip-172-31-5-217.eu-west-2.compute.internal:10000/default
