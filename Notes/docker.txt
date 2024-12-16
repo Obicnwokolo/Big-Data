@@ -1,0 +1,46 @@
+DOCKER
+
+docker run -it ubuntu
+----------------------------------------------------------------------------------------
+# Use an official Python runtime as a parent image
+FROM python:3.7-slim
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Run hello_world.py when the container launches
+CMD ["python", "hello_world.py"]
+------------------------------------------------------------------------------------------------
+docker build -t obinna_docker_python . :
+
+"docker build": This command tells Docker to build an image from the instructions specified in a Dockerfile.
+
+"-t obinna_docker_python" : The "-t" flag stands for "tag" and allows you to name the image.
+"obinna_docker_python" is the name (or tag) assigned to the image. Tags are useful for identifying and managing images.
+
+"." The . specifies the build context. In this case, it means "use the current directory."
+The build context includes the Dockerfile and any files it needs (e.g., application code, dependencies).
+
+
+--------------------------------------------------------------------------------------
+
+docker image ls : is used to list all the Docker images available on your system.
+
+docker run <image-id or image name> :is used to start a container from a Docker image. 
+
+docker images -a : is used to list all Docker images, including intermediate image layers, on your local machine. 
+"-a": Stands for "all." This flag ensures that the output includes:
+	-Dangling images: Images without a repository or tag.
+	-Intermediate layers: Images created during multi-stage builds or layering processes.
+
+Docker ps -a :The docker ps -a command lists all containers on your system, including:
+	- Running containers.
+	- Stopped containers.
+	- Containers that exited after completing their tasks.
+	- Containers created but never started.
+
+docker image rm <image-id>: remove docker image
+docker image rm -f <image-id> : force-remove docker image
