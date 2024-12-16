@@ -1,0 +1,62 @@
+SPARK
+--------------------------------------------------------------------------------
+
+#server: 18.134.132.202
+--------------------------------------------------------------------------------------
+pyspark --master local[*]
+--------------------------------------------------------------------------------------
+rdd=spark.sparkContext.parallelize([1,2,3,4,5,6,7,8,9,10])
+rdd.collect()
+--------------------------------------------------------------------------------------
+rdd2 = spark.sparkContext.textFile("/tmp/bigdata_nov_2024/hitesh/some_text.txt")
+rdd2.collect()
+--------------------------------------------------------------------------------------
+CREATING DATAFRAME
+data = [('James','','Smith','1991-04-01','M',3000),
+  ('Michael','Rose','','2000-05-19','M',4000),
+  ('Robert','','Williams','1978-09-05','M',4000),
+  ('Maria','Anne','Jones','1967-12-01','F',4000),
+  ('Jen','Mary','Brown','1980-02-17','F',-1)
+]
+
+columns = ["firstname","middlename","lastname","dob","gender","salary"]
+df = spark.createDataFrame(data=data, schema = columns)
+-----------------------------------------------------------------------------------------------
+SPARK
+Spark Architecture, an open-source, framework-based component that processes a large amount of unstructured, semi-structured, and structured data for analytics, is utilised in Apache Spark.
+
+Features
+-SPeed
+-Powerful Caching
+- Deployment
+- Real-time
+- Polygot
+
+
+TWO MAIN ABSTRACTIONS
+1. Resilient Distributed Datasets (RDD): It helps in recomputing data in case of failures, and it is a data structure. 
+	There are two methods for modifying RDDs: 
+		- transformations
+		- actions.
+2. Directed Acyclic Graph (DAG):The driver converts the program into a DAG for each job. A sequence of connection between nodes is referred to as a driver.
+
+SPARK ECOSYSTEM
+-Spark API core		-Spark SQL	 -Streaming and real-time processing, 
+- Spark MLIB		-Spark Graph X
+
+SPARK ARCHITECTURE
+- Driver Program [Spark context]: Spark contexts (gateways) are created by the driver to monitor the job working in a specific cluster and to connect to a Spark cluster.
+The Spark Context receives task information from the Cluster Manager and enqueues it on worker nodes.
+- Cluster Manager: The Cluster Manager manages the execution of various jobs in the cluster.
+- Worker node: The slave nodes function as executors, processing tasks, and returning the results back to the spark context. 
+- Executors: Executors read and write external data in addition to servicing client requests.
+
+MODES OF EXECUTION
+- Cluster mode
+- Client mode
+- Local mode
+
+
+
+
+
