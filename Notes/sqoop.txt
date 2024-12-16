@@ -6,6 +6,9 @@ To login to Postrgre
 sqoop list-databases --connect jdbc:postgresql://18.132.73.146:5432/testdb --username consultants -P
 
 psswd: WelcomeItc@2022
+
+Mysql
+sqoop list-databases --connect jdbc:MySQL://Obicool:3306/credit_db --username root -P
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # To list tables
 sqoop list-tables --connect jdbc:postgresql://18.132.73.146:5432/testdb --username consultants -P
