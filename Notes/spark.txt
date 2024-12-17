@@ -42,7 +42,7 @@ TWO MAIN ABSTRACTIONS
 
 SPARK ECOSYSTEM
 -Spark API core		-Spark SQL	 -Streaming and real-time processing, 
-- Spark MLIB		-Spark Graph X
+-Spark MLIB		-Spark Graph X
 
 SPARK ARCHITECTURE
 - Driver Program [Spark context]: Spark contexts (gateways) are created by the driver to monitor the job working in a specific cluster and to connect to a Spark cluster.
@@ -55,8 +55,75 @@ MODES OF EXECUTION
 - Cluster mode
 - Client mode
 - Local mode
+------------------------------------------------------------------------------------
+Narrow transformations: Examples include map, filter, and union. These can be processed within a single stage without needing to move data between partitions.
+Wide transformations: Examples include groupByKey, reduceByKey, join, and distinct. These require a shuffle of data between partitions, which creates new stages in the DAG (Directed Acyclic Graph) and generally results in more processing overhead.
+-------------------------------------------------------------------------------------
 
+data = [("apple", 1), ("banana", 2), ("apple", 3), ("banana", 4)]
 
+# Create an RDD
+rdd = sc.parallelize(data)
 
+# Perform a wide transformation: groupByKey (this involves a shuffle)
+grouped_rdd = rdd.groupByKey()
 
+# Collect the result (this will trigger the action)
+result = grouped_rdd.collect()
 
+# Print the result
+print(result)
+--------------------------------------------------------------------------------------
+18.134.132.202:<4044> >> To access the spark web UI
+----------------------------------------------------------------------------------------
+export SPARK_HOME=//opt/cloudera/parcels/CDH/lib/spark
+export PATH=$SPARK_HOME/bin:$PATH
+--------------------------------------------------------------------------------------
+# Create DataFrame from CSV file
+df= spark.read.option("header", "true").csv("C:/Users/chigb/Downloads/fraud_records.csv") : use header in file.
+
+df.printSchema(): to get the schema of the DataFrame
+
+df.show() : To display the DataFrame. which shows the 20 rows by default.
+---------------------------------------------------------------------------------------------------------
+#To rename DataFrame column name
+df.withColumnRenamed("fraud_detected_date", "detection_date").printSc
+hema()
+
+#To rename multiple columns
+
+-------------------------------------------------------------------------------------------------------------------
+# To run SPARK SCALA
+spark-shell
+
+#Create RDD using scala
+// Create a local collection (List, Array, etc.)
+val data = List(1, 2, 3, 4, 5)
+
+// Create an RDD from the collection
+val rdd = sc.parallelize(data)
+
+// Show the contents of the RDD
+rdd.collect().foreach(println)
+---------------------------------------------------------------------------------------------------------------
+// Existing RDD
+val rdd = sc.parallelize(List(1, 2, 3, 4, 5))
+
+// Apply a transformation (filter)
+val filteredRDD = rdd.filter(x => x % 2 == 0)
+
+// Collect and print the results
+filteredRDD.collect().foreach(println)
+---------------------------------------------------------------------------------------------------------------------
+// Create an RDD from a CSV file
+val csvRdd = sc.textFile("C:/Users/chigb/Downloads/fraud_records.csv")
+
+// Process CSV data (you might need to split columns, etc.)
+csvRdd.map(line => line.split(",")).collect().foreach(arr => println(arr.mkString(" ")))
+----------------------------------------------------------------------------------------------------------------------
+// Create an RDD from a HDFS CSV file
+val hdfsRdd = sc.textFile("/tmp/bigdata_nov_2024/obinna/data1.csv")
+val hdfsRdd2 = sc.textFile("/tmp/bigdata_nov_2024/obinna/data.csv")
+
+// Process HDFS CSV data (you might need to split columns, etc.)
+hdfsRdd.map(line => line.split(",")).collect().foreach(arr => println(arr.mkString(" ")))
