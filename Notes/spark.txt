@@ -8,7 +8,7 @@ pyspark --master local[*]
 rdd=spark.sparkContext.parallelize([1,2,3,4,5,6,7,8,9,10])
 rdd.collect()
 --------------------------------------------------------------------------------------
-rdd2 = spark.sparkContext.textFile("/tmp/bigdata_nov_2024/hitesh/some_text.txt")
+rdd2 = spark.sparkContext.textFile("/tmp/bigdata_nov_2024/obinna/pyspark/Bank_Churn.csv")
 rdd2.collect()
 --------------------------------------------------------------------------------------
 CREATING DATAFRAME
@@ -127,3 +127,50 @@ val hdfsRdd2 = sc.textFile("/tmp/bigdata_nov_2024/obinna/data.csv")
 
 // Process HDFS CSV data (you might need to split columns, etc.)
 hdfsRdd.map(line => line.split(",")).collect().foreach(arr => println(arr.mkString(" ")))
+
+
+PYSPARK
+
+Read the Csv file
+>>> df1= spark.read.option("header", "true").csv("C:/Users/chigb/Download
+s/Bank_Churn.csv")
+>>> df1.show(5)
+
+Filtered the data based on Gender(Male)
+>>> filtered_df1 = df1.filter(df1["Gender"]== "Male")
+>>> filtered_df1.show(5)
+
+Added 2 New columns
+>>> from pyspark.sql.functions import lit, length, when
+>>> df1 = df1.withColumn("LenName", length(df1["Surname"]))
+>>> df1 = df1.withColumn("LossType", when(df1["CreditScore"] >= 700, "Big loss").otherwise("loss"))
+>>> df1.show(5)
+
+Dropped LenName column
+>>> df1= df1.drop("LenName")
+>>> df1.show()
+
+Changed COlumn name from Geography to Location
+>>> df1 = df1.withColumnRenamed("Geography", "Location")
+
+Group By NumOfProducts
+>>> group_df= df1.groupBy("NumOfProducts").count()
+>>> group_df.show()
+
+Sort Table by CustomerId
+>>> df1_sorted = df1.orderBy("CustomerId")
+>>> df1_sorted.show()
+
+Replace Values of Active members
+>>> mod_df1 =df1.withColumn("IsActiveMember", when(df1["IsActiveMember"]== 1, "Yes").otherwise("No"))
+>>> mod_df1.show()
+
+Change CustomerId from String data type to integer
+>>> df1= df1.withColumn("CustomerId", df1["CustomerId"].cast("int"))
+df1.printSchema()
+
+Normalize Expected Salary
+>>> CS_mean= df1.agg(mean("EstimatedSalary")).collect()[0][0]
+>>> CS_stddev= df1.agg(stddev("EstimatedSalary")).collect()[0][0]
+>>> df1 = df1.withColumn("Standardaized Est_Salary", (col("EstimatedSalary") - CS_mean) / CS_stddev)
+>>> df1.show()
