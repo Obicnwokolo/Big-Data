@@ -136,4 +136,4 @@ for (a <- xs) {
 
  # Traditional for loops are available in scala
  # Traditional for loops are underused in scala
- # For comprehensions are used in place of for loops
+ # For comprehensions are used in place of for Loops
