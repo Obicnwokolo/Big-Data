@@ -174,3 +174,6 @@ Normalize Expected Salary
 >>> CS_stddev= df1.agg(stddev("EstimatedSalary")).collect()[0][0]
 >>> df1 = df1.withColumn("Standardaized Est_Salary", (col("EstimatedSalary") - CS_mean) / CS_stddev)
 >>> df1.show()
+
+
+Save CSV to machine
