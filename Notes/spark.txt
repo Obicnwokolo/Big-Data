@@ -177,3 +177,7 @@ Normalize Expected Salary
 
 
 Save CSV to machine
+
+# READ FROM POSTGRESQL
+ df = spark.read.format("jdbc").option("url", "jdbc:postgresql://18.132.73.146:5432/testdb").option("driver", "org.postgresql.Driver").option("dbtable", "person").option("user", "mailto:consultants").option("password","welcomeitc@2022").load()
+l>>> df.printSchema();
