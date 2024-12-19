@@ -54,4 +54,4 @@ Bank_churn = df1
 
 Bank_churn.show(5)
 
-Bank_churn.write.option("header", "true").csv("C:/Users/chigb/Downloads/Mod_Bank_churn")
+#Bank_churn.write.option("header", "true").csv("C:/Users/chigb/Downloads/Mod_Bank_churn")
