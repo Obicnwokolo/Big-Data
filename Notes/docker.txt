@@ -103,3 +103,15 @@ services:
 docker-compose build
 
 docker-compose up : is a command used to start and run services defined in a docker-compose.yml file
+
+------------------------------------------------------------------------------------------------------------------------------
+DOCKER HUB
+
+Make sure to login to both docker hub and docker desktop
+
+>> Docker image ls
+>> docker tag docker-python kcjnr007/bigdata:ObiDocker
+>> Docker image ls :  to confirm tag creation
+>> docker push kcjnr007/bigdata:ObiDocker  # to push to repository
+>> docker pull hiteshbigdataengineer/hello_docker_repo:hitesh_docker_img_tag # to read some one's docker image
+
