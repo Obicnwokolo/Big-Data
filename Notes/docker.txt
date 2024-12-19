@@ -114,4 +114,8 @@ Make sure to login to both docker hub and docker desktop
 >> Docker image ls :  to confirm tag creation
 >> docker push kcjnr007/bigdata:ObiDocker  # to push to repository
 >> docker pull hiteshbigdataengineer/hello_docker_repo:hitesh_docker_img_tag # to read some one's docker image
-
+>> commit to github
+>> run on jenkins with execute shell as:
+    cd python
+    docker build -t 2cebab2b0778 .
+    docker run 4d5b1f1a9af5
