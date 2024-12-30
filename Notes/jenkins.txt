@@ -1,0 +1,11 @@
+#To load file to hive from postgres using scala
+
+mvn clean compile
+mvn clean package
+mvn package
+spark-submit --master local[*] --jars /var/lib/jenkins/workspace/nagaranipysparkdryrun/lib/postgresql-42.5.3.jar /var/lib/jenkins/workspace/sop_fraud_inc_load/target/fraud2-1.0-SNAPSHOT.jar
+
+--------------------------------------------------------------------------------
+#To load file to hive from postgres using pyspark
+
+spark-submit --master local[*] --jars /var/lib/jenkins/workspace/nagaranipysparkdryrun/lib/postgresql-42.5.3.jar src/FirstLoadPostgressToHive.py

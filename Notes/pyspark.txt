@@ -1,0 +1,48 @@
+Use this server for pyspark
+ssh -i "test_key.pem" ec2-user@13.40.76.180
+
+ssh -i "test_key.pem" ec2-user@18.132.73.146
+
+postgresql://18.132.73.146:5432/testdb
+
+pysprak --master local[*] --jars postgresql-42.5.3.jar
+
+spark-submit --master local[*] --jars /var/lib/jenkins/workspace/nagaranipysparkdryrun/lib/postgresql-42.5.3.jar src/FirstLoadPostgressToHive.py
+
+# both python and scala
+
+connect to postgress
+ df = spark.read.format("jdbc").option("url", "jdbc:postgresql://18.132.73.146:5432/testdb").option("driver", "org.postgresql.Driver").option("dbtable", "person").option("user", "mailto:consultants").option("password","welcomeitc@2022").load()
+l>>> df.printSchema();
+
+# read table from there and do the transformation
+spark-submit --master local --class spark.ObiSpark target/ObiScala/target/ObiSpark-1.0-SNAPSHOT.jar
+
+
+/ObiScala/target/ObiSpark-1.0-SNAPSHOT.jar
+
+"C:/Users/chigb/Downloads/railway.csv"
+
+
+Building jar: /var/lib/jenkins/workspace/Railway/target/Railway-1.0-SNAPSHOT.jar
+-----------------------------------------------------------------------------------------
+UK TRAIN
+spark-submit --master local --class spark.rides target/rides-1.0-SNAPSHOT.jar
+
+/var/lib/jenkins/workspace/Obi Uktrains/src/test/resources
+
+------------------------------------------------------------------------------------
+https://github.com/Obicnwokolo/Uktrain.git
+mvn package
+spark-submit --master local --class spark.finance target/finance-1.0-SNAPSHOT.jar
+
+-------------------------------------------------------------------------------------------------------
+
+rm -rf /var/lib/jenkins/workspace/ObiUkRides/target
+
+mvn clean compile
+mvn package
+---------------------------------------------------------------------------------------------------
+spark-submit --class spark.rides --master local[*] --jars /path/to/postgresql-42.2.5.jar target/rides-1.0-SNAPSHOT.jar
+
+spark-submit --master local[*] --jars /var/lib/jenkins/workspace/nagaranipysparkdryrun/lib/postgresql-42.5.3.jar src/FirstLoadPostgressToHive.py
